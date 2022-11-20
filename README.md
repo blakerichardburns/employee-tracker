@@ -14,7 +14,7 @@
   * [Usage Information](#usage-information)
   * [Questions](#questions)
   ## Installation Instructions
-  express, mysql2, inquirer
+  mysql2, inquirer
   ## Usage Information
   
   ## Questions
