@@ -1,20 +1,13 @@
-const mysql = require('mysql2');
-const cTable = require('console.table');
+const db = require('./db/connection');
+require('console.table');
 const inquirer = require('inquirer');
+const utils = require('util');
+db.query = utils.promisify(db.query);
 
-const db = mysql.createConnection(
-  {
-    host: 'localhost',
-    user: 'root',
-    password: 'BBC--0822',
-    database: 'employees_db'
-  },
-  console.log(`Connected to the books_db database.`)
-);
 
 const mainMenu = [
   {
-    name: 'Main Menu',
+    name: 'mainMenu',
     type: 'list',
     message: 'What would you like to do?',
     choices: [
@@ -25,13 +18,14 @@ const mainMenu = [
       'Add a role',
       'Add an employee',
       'Update an employee role',
+      'Quit'
     ],
   }
 ];
 
 const addDepartment = [
   {
-    name: 'Add a Department',
+    name: 'addDepartment',
     type: 'input',
     message: 'Which department would you like to add?',
   }
@@ -39,69 +33,102 @@ const addDepartment = [
 
 const addRole = [
   {
-    name: 'Role Name',
+    name: 'roleName',
     type: 'input',
     message: 'What is the name of the Role would you like to add?',
   },
   {
-    name: 'Salary',
+    name: 'salary',
     type: 'input',
     message: 'What is the salary of the role?',
   },
-  {
-    name: 'Role Department',
-    type: 'list',
-    message: 'In which department does the role belong?',
-    choices: [],
-  }
 ];
 
 const addEmployee = [
   {
-    name: 'Employee First Name',
+    name: 'employeeFirstName',
     type: 'input',
     message: 'What is the First Name of the employee?',
   },
   {
-    name: 'Employee Last Name',
+    name: 'employeeLastName',
     type: 'input',
     message: 'What is the Last Name of the employee?',
-  },
-  {
-    name: 'Employee Role',
-    type: 'list',
-    message: 'What is the role of the employee?',
-    choices: [],
-  },
-  {
-    name: 'Employee Manager',
-    type: 'list',
-    message: 'Who is the manager of the employee?',
-    choices: [],
   }
 ];
 
-const updateRole = [
-  {
-    name: 'Employee to Update',
-    type: 'list',
-    message: 'Which employee needs their role updated?',
-    choices: [],
-  },
-  {
-    name: 'Updated Role',
-    type: 'list',
-    message: 'What is the new role of the employee?',
-    choices: [],
-  }
-];
 
 function init() {
   inquirer
     .prompt(mainMenu)
     .then(response => {
-
+      if (response.mainMenu === 'View all departments') {
+        viewDepartments();
+      } else if (response.mainMenu === 'View all roles') {
+        viewRoles();
+      } else if (response.mainMenu === 'View all employees') {
+        viewEmployees();
+      } else if (response.mainMenu === 'Add a department') {
+        createDepartment();
+      } else if (response.mainMenu === 'Add a role') {
+        createRole();
+      } else if (response.mainMenu === 'Add an employee') {
+        createEmployee();
+      } else if (response.mainMenu === 'Update an employee role') {
+        updateRole();
+      } else {
+        process.exit();
+      }
     })
 };
 
-init()
+init();
+
+function viewDepartments() {
+  db.query("SELECT * FROM department", (err, results) => {
+    if (err) {
+      console.log("Error");
+    } console.table(results);
+    init();
+  })
+};
+
+function viewRoles() {
+  db.query("SELECT * FROM role", (err, results) => {
+    if (err) {
+      console.log("Error");
+    } console.table(results);
+    init();
+  })
+};
+
+function viewEmployees() {
+  db.query("SELECT * FROM employee", (err, results) => {
+    if (err) {
+      console.log("Error");
+    } console.table(results);
+    init();
+  })
+};
+
+// function createDepartment() {
+
+// };
+
+// function createRole() {
+//   db.query("SELECT * FROM department", (err, results) => {
+//     if (err) {
+//       console.log("Error")
+//     } let departments = results.map(({ id, name }) => ({ value: id, name: name }))
+//   })
+//   inquirer
+//     .prompt(addRole)
+// };
+
+// function createEmployee() {
+
+// };
+
+// function updateRole() {
+
+// };
