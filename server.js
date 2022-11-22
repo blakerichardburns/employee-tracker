@@ -41,7 +41,7 @@ const addRole = [
     name: 'salary',
     type: 'input',
     message: 'What is the salary of the role?',
-  },
+  }
 ];
 
 const addEmployee = [
@@ -90,7 +90,7 @@ function viewDepartments() {
       console.log("Error");
     } console.table(results);
     init();
-  })
+  });
 };
 
 function viewRoles() {
@@ -99,7 +99,7 @@ function viewRoles() {
       console.log("Error");
     } console.table(results);
     init();
-  })
+  });
 };
 
 function viewEmployees() {
@@ -108,21 +108,32 @@ function viewEmployees() {
       console.log("Error");
     } console.table(results);
     init();
-  })
+  });
 };
 
-// function createDepartment() {
-
-// };
+function createDepartment() {
+  inquirer
+    .prompt(addDepartment)
+      .then(response => {
+        db.query(`INSERT INTO department (name) VALUES ("${response.addDepartment}");`);
+        console.log(`${response.addDepartment} department successfully added!`);
+        viewDepartments();
+        init();
+      });
+      
+};
 
 // function createRole() {
 //   db.query("SELECT * FROM department", (err, results) => {
 //     if (err) {
-//       console.log("Error")
+//       console.log("Error");
 //     } let departments = results.map(({ id, name }) => ({ value: id, name: name }))
-//   })
+//   });
 //   inquirer
 //     .prompt(addRole)
+//       .then(response => {
+//         db.query(`INSERT INTO role (title, salary) VALUES (${response.roleName}, ${response.salary})`)
+//       })
 // };
 
 // function createEmployee() {
