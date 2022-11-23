@@ -1,6 +1,6 @@
 INSERT INTO department (name)
 VALUES  ("Client Engagement"),
-        ("Production");
+        ("Production"),
         ("IT");
 
 
