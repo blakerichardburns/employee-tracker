@@ -1,6 +1,7 @@
 INSERT INTO department (name)
 VALUES  ("Client Engagement"),
         ("Production");
+        ("IT");
 
 
 INSERT INTO role (title, salary, department_id)
