@@ -49,7 +49,7 @@ function init() {
 init();
 
 function viewDepartments() {
-  db.query("SELECT * FROM department", (departmentError, departmentResults) => {
+  db.query("SELECT name, id FROM department", (departmentError, departmentResults) => {
     if (departmentError) {
       console.log("Error with Department Query");
     } console.table(departmentResults);
@@ -58,7 +58,7 @@ function viewDepartments() {
 };
 
 function viewRoles() {
-  db.query("SELECT * FROM role", (roleErr, roleResults) => {
+  db.query("SELECT title, role.id, name AS department_name, salary FROM role JOIN department ON role.department_id = department.id", (roleErr, roleResults) => {
     if (roleErr) {
       console.log("Error with Role Query");
     } console.table(roleResults);
@@ -67,7 +67,7 @@ function viewRoles() {
 };
 
 function viewEmployees() {
-  db.query("SELECT * FROM employee", (employeeErr, employeeResults) => {
+  db.query("SELECT employee.id, CONCAT(first_name, ' ', last_name) AS employee_name, title, name AS department_name, salary, manager_id FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id", (employeeErr, employeeResults) => {
     if (employeeErr) {
       console.log("Error with Employee Query");
     } console.table(employeeResults);
@@ -87,7 +87,7 @@ function createDepartment() {
     .prompt(addDepartment)
     .then(response => {
       db.query(`INSERT INTO department (name) VALUES ("${response.addDepartment}");`);
-      db.query("SELECT * FROM department", (departmentError, departmentResults) => {
+      db.query("SELECT name, id FROM department", (departmentError, departmentResults) => {
         if (departmentError) {
           console.log("Error with Deparment Query");
         } console.table(departmentResults);
@@ -131,7 +131,7 @@ function createRole() {
         let departmendIdString = response.roleDepartment;
         let departmentIdArray = departmendIdString.split(" ");
         db.query(`INSERT INTO role (title, salary, department_id) VALUES ("${response.roleName}", "${response.roleSalary}", "${departmentIdArray[0]}");`);
-        db.query("SELECT * FROM role", (roleErr, roleResults) => {
+        db.query("SELECT title, role.id, name AS department_name, salary FROM role JOIN department ON role.department_id = department.id", (roleErr, roleResults) => {
           if (roleErr) {
             console.log("Error with Role Query");
           } console.table(roleResults);
@@ -193,7 +193,7 @@ function createEmployee() {
           let managerIdString = response.employeeManager;
           let managerIdArray = managerIdString.split(" ");
           db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${response.employeeFirstName}", "${response.employeeLastName}", "${roleIdArray[0]}", "${managerIdArray[0]}");`);
-          db.query("SELECT * FROM employee", (employeeErr, employeeResults) => {
+          db.query("SELECT employee.id, CONCAT(first_name, ' ', last_name) AS employee_name, title, name AS department_name, salary, manager_id FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id", (employeeErr, employeeResults) => {
             if (employeeErr) {
               console.log("Error with Employee Query");
             } console.table(employeeResults);
@@ -246,11 +246,11 @@ function updateRole() {
           let roleIdString = response.newRole;
           let roleIdArray = roleIdString.split(" ");
           db.query(`UPDATE employee SET role_id = "${roleIdArray[0]}" WHERE id = ${employeeIdArray[0]}`);
-          db.query("SELECT * FROM employee", (employeeErr, employeeResults) => {
+          db.query("SELECT employee.id, CONCAT(first_name, ' ', last_name) AS employee_name, title, name AS department_name, salary, manager_id FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id", (employeeErr, employeeResults) => {
             if (employeeErr) {
               console.log("Error with Employee Query");
             } console.table(employeeResults);
-            console.log(`Employee ${response.employeeFirstName} ${response.employeeLastName} has been successfully updated to a new role!`);
+            console.log(`The employee has been successfully updated to a new role!`);
             init();
           });
         });
