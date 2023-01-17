@@ -1,5 +1,5 @@
-# Employee Tracker
-## Week 12 Challenge: SQL
+# employee-tracker
+Module 12 Challenge: SQL
 
 [![Demonstration Video](https://img.youtube.com/vi/4QnfZpp3OCI/maxresdefault.jpg)](https://youtu.be/4QnfZpp3OCI)
 
