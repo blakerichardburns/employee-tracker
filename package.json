@@ -1,7 +1,7 @@
 {
   "name": "employee-tracker",
   "version": "1.0.0",
-  "description": "[![Demonstration Video](https://img.youtube.com/vi/ /maxresdefault.jpg)](https://youtu.be/  )",
+  "description": "Content Management System for managing a company's employee database.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/blakerichardburns/employee-tracker.git"
   },
-  "author": "",
+  "author": "Blake Burns",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/blakerichardburns/employee-tracker/issues"
