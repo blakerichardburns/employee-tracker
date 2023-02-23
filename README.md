@@ -21,5 +21,5 @@ Content Management System for managing a company's employee database.
   Used by inputting data in the command-line through Node JS.
   
   ## Questions
-  For any inquiries, spam by inbox here: blakerichardburns@gmail.com
+  For any inquiries, spam my inbox here: blakerichardburns@gmail.com <br>
   To peruse more of my portfolio, check this out: [blakerichardburns](https://github.com/blakerichardburns)
